@@ -1,0 +1,172 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+
+/*
+ * LAB Coffee Works — Design Tokens
+ * Bespoke palette inspired by the brand:
+ *   forest green (LAB), plum (chair velvet), cream + warm off-white.
+ * All colours in oklch. No defaults — every token is intentional.
+ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-bone: var(--bone);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-forest-soft: var(--forest-soft);
+  --color-plum: var(--plum);
+  --color-plum-deep: var(--plum-deep);
+  --color-rule: var(--rule);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--forest);
+  --color-primary-foreground: var(--bone);
+  --color-secondary: var(--plum);
+  --color-secondary-foreground: var(--bone);
+  --color-accent: var(--plum);
+  --color-accent-foreground: var(--bone);
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--forest);
+  --color-card: var(--background);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--background);
+  --color-popover-foreground: var(--foreground);
+  --color-destructive: oklch(0.55 0.2 25);
+  --color-destructive-foreground: var(--bone);
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Inter", "Helvetica Neue", system-ui, sans-serif;
+
+  --tracking-display: -0.02em;
+  --tracking-eyebrow: 0.28em;
+
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+}
+
+:root {
+  /* surfaces */
+  --background: oklch(0.965 0.012 85);     /* warm bone */
+  --bone:       oklch(0.965 0.012 85);
+  --cream:      oklch(0.93  0.022 85);     /* deeper cream */
+  --foreground: oklch(0.20  0.012 145);    /* near-black with green undertone */
+  --ink:        oklch(0.20  0.012 145);
+  --ink-soft:   oklch(0.42  0.012 145);
+  --muted:      oklch(0.92  0.014 85);
+  --muted-foreground: oklch(0.45 0.010 140);
+  --rule:       oklch(0.78 0.012 130 / 0.55);
+
+  /* brand */
+  --forest:       oklch(0.36 0.062 152);   /* LAB green */
+  --forest-deep:  oklch(0.26 0.058 152);
+  --forest-soft:  oklch(0.55 0.055 152);
+  --plum:         oklch(0.36 0.090 355);   /* chair velvet */
+  --plum-deep:    oklch(0.27 0.082 355);
+
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--forest);
+  --sidebar-primary-foreground: var(--bone);
+  --sidebar-accent: var(--cream);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--forest);
+}
+
+@layer base {
+  * {
+    border-color: var(--rule);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    letter-spacing: 0.005em;
+  }
+  ::selection {
+    background: var(--forest);
+    color: var(--bone);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: var(--tracking-display);
+    line-height: 0.98;
+  }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: var(--tracking-display);
+    line-height: 0.95;
+  }
+  .serif-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+  }
+  /* subtle paper grain via radial — never a flat slab */
+  .paper {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, oklch(0.95 0.03 90 / 0.55), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, oklch(0.90 0.04 150 / 0.35), transparent 65%),
+      var(--background);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ========================================================================
+ * GLOBAL FILM-GRAIN OVERLAY
+ * Applied via <FilmGrain /> in the root layout. Uses an SVG turbulence
+ * filter (no image asset) and sits above all content with no interaction.
+ * ====================================================================== */
+.lab-grain {
+  filter: url(#lab-grain);
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+}
+
+/* ========================================================================
+ * CUSTOM CURSOR — desktop only
+ * <Cursor /> component handles the dot. Hide native cursor on fine-pointer
+ * devices. Keep default cursor on touch / coarse-pointer devices.
+ * ====================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, [role="button"], input, textarea, select { cursor: none; }
+}
+.lab-cursor { will-change: transform; }
+
